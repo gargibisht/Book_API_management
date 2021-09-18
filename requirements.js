@@ -15,17 +15,17 @@
 //What are all the APIs which we need.....
 
 //Books
-//We need an API
-//To get all the books
-//To get specific books
-//To get list of books based on category
-//To get list of books baesd on languages
+//We need an API        done
+//To get all the books      done
+//To get specific books     done
+//To get list of books based on category        done
+//To get list of books based on languages       done
 
 //Authors
-//We need an API
-//To get all the authors
-//To get specific authors
-//To get list of authors based on books
+//We need an API        done
+//To get all the authors        done
+//To get specific authors by id number       done
+//To get list of authors based on books ISBN        done
 
 //Publications
 //We need an API

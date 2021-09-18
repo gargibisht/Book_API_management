@@ -18,7 +18,6 @@ booky.get("/", (req, res) => {
     return res.json({ books: database.books });
 });
 
-
 /*
 Route           /is
 Description     Get specific books based on ISBN
@@ -74,6 +73,24 @@ booky.get("/l/:lang", (req, res) => {
 });
 
 /*
+Route           /t
+Description     Get specific books based on title
+Access          PUBLIC
+Parameter       title
+Methods         get
+*/
+booky.get("/t/:title", (req, res) => {
+    const getSpecificBook = database.books.filter(
+        (book) => book.title === req.params.title);
+
+    if (getSpecificBook.length === 0) {
+        return res.json({ error: `Book not found with the title ${req.params.title}`, });
+    }
+    return res.json({ book: getSpecificBook });
+
+});
+
+/*
 Route           /author
 Description     Get all authors
 Access          PUBLIC
@@ -92,7 +109,6 @@ Access          PUBLIC
 Parameter       id
 Methods         get
 */
-
 booky.get("/ident/:id", (req, res) => {
     const getSpecificAuthor = database.author.filter(
         (author) => author.id == req.params.id);
@@ -103,5 +119,25 @@ booky.get("/ident/:id", (req, res) => {
     return res.json({ author: getSpecificAuthor });
 
 });
+
+/*
+Route           /author/book
+Description     Get all authors based on book isbn
+Access          PUBLIC
+Parameter       isbn
+Methods         get
+*/
+booky.get("/author/book/:isbn", (req, res) => {
+    const getSpecificAuthor = database.author.filter(
+        (author) => author.books.includes(req.params.isbn));
+
+    if (getSpecificAuthor.length === 0) {
+        return res.json({ error: `Author not found for the book ISBN of ${req.params.isbn}`, });
+    }
+    return res.json({ author: getSpecificAuthor });
+
+});
+
+
 
 booky.listen(3000, () => console.log("Hey server is running"));

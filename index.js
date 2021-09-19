@@ -138,6 +138,63 @@ booky.get("/author/book/:isbn", (req, res) => {
 
 });
 
+/*
+Route           /publications
+Description     Get all publications
+Access          PUBLIC
+Parameter       NONE
+Methods         get
+*/
+booky.get("/publications", (req, res) => {
+
+    return res.json({ publications: database.publications });
+});
+
+/*
+Route           /p
+Description     Get specific publications based on id
+Access          PUBLIC
+Parameter       id
+Methods         get
+*/
+booky.get("/p/:id", (req, res) => {
+    const getSpecificPublication = database.publications.filter(
+        (publications) => publications.id == req.params.id);
+
+    if (getSpecificPublication.length === 0) {
+        return res.json({ error: `Publication not found for the id of ${req.params.id}`, });
+    }
+    return res.json({ publications: getSpecificPublication });
+
+});
+
+/*
+Route           /publication/book
+Description     Get all authors based on book isbn
+Access          PUBLIC
+Parameter       isbn
+Methods         get
+*/
+booky.get("/publication/book/:isbn", (req, res) => {
+    const getSpecificpublication = database.author.filter(
+        (publication) => publication.books.includes(req.params.isbn));
+
+    if (getSpecificpublication.length === 0) {
+        return res.json({ error: `Publication not found for the book ISBN of ${req.params.isbn}`, });
+    }
+    return res.json({ publication: getSpecificpublication });
+
+});
 
 
-booky.listen(3000, () => console.log("Hey server is running"));
+
+
+
+
+
+
+
+
+
+
+booky.listen(3000, () => console.log("Hey! server is running!!!!")); /*in the terminal it shows whether our localhost:3000 is working or not.*/

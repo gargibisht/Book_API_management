@@ -6,6 +6,12 @@ const database = require("./database");
 //Initialisation
 const booky = express();
 
+//configuration
+booky.use(express.json());
+
+booky.listen(3000, () => console.log("Hey! server is running!!")); /*in the terminal it shows whether our localhost:3000 is working or not.*/
+
+
 /*
 Route           /
 Description     Get all books
@@ -186,15 +192,95 @@ booky.get("/publication/book/:isbn", (req, res) => {
 
 });
 
+/*
+Route           /book/add
+Description     add new book
+Access          PUBLIC
+Parameter       NONE
+Methods         POST
+*/
+booky.post("/book/add", (req, res) => {
+    const { newBook } = req.body;
+    database.books.push(newBook);
+    return res.json({ books: database.books });
+});
 
+/*Postman helps us to make https calls for Api request.
+Browser cannot take any other methof otherthan GET that is why we are using this postman*/
 
+/*
+Route           /author/add
+Description     add new author
+Access          PUBLIC
+Parameter       NONE
+Methods         POST
+*/
+booky.post("/author/add", (req, res) => {
+    const { newAuthor } = req.body;
+    database.author.push(newAuthor);
+    return res.json({ authors: database.author });
+});
 
+/*
+Route           /publication/add
+Description     add new publication
+Access          PUBLIC
+Parameter       NONE
+Methods         POST
+*/
+booky.post("/publication/add", (req, res) => {
+    const { newPublication } = req.body;
+    database.publications.push(newPublication);
+    return res.json({ publications: database.publications });
+});
 
+/*
+Route           /book/update/title
+Description     update a book title
+Access          PUBLIC
+Parameter       isbn
+Methods         PUT
+*/
+booky.put("/book/update/title/:isbn", (req, res) => {
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) {
+            book.title = req.body.newBookTitle;
+            return;
+        }
+    });
+    return res.json({ books: database.books });
+});
 
+/*
+Route           /author/update/name
+Description     update an author name
+Access          PUBLIC
+Parameter       ide
+Methods         PUT
+*/
+booky.put("/author/update/name/:ide", (req, res) => {
+    database.author.forEach((authors) => {
+        if (authors.id == req.params.ide) {
+            authors.name = req.body.newAuthorName;
+            return;
+        }
+    });
+    return res.json({ author: database.author });
+});
 
-
-
-
-
-
-booky.listen(3000, () => console.log("Hey! server is running!!!!")); /*in the terminal it shows whether our localhost:3000 is working or not.*/
+/*
+Route           /publication/update/name
+Description     update a publication name
+Access          PUBLIC
+Parameter       idi
+Methods         PUT
+*/
+booky.put("/publication/update/name/:idi", (req, res) => {
+    database.publications.forEach((publication) => {
+        if (publication.id == req.params.idi) {
+            publication.name = req.body.newPublicationName;
+            return;
+        }
+    });
+    return res.json({ publications: database.publications });
+}); //not working

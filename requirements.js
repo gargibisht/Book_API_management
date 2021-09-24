@@ -32,7 +32,7 @@
 //PUT(APIs method)
 //purpose:update
 //update book title ✅
-//update, add new author for a book
+//update/add new author for a book ✅
 
 //DELETE(APIs method)
 //purpose: to delete something
@@ -70,7 +70,7 @@
 
 //PUT
 //update the publication name ✅
-//update add books to publications
+//update/add new books to publication ✅
 
 //DELETE
 //delete the publication

@@ -218,7 +218,7 @@ Methods         POST
 booky.post("/author/add", (req, res) => {
     const { newAuthor } = req.body;
     database.author.push(newAuthor);
-    return res.json({ authors: database.author });
+    return res.json({ author: database.author });
 });
 
 /*
@@ -250,6 +250,8 @@ booky.put("/book/update/title/:isbn", (req, res) => {
     });
     return res.json({ books: database.books });
 });
+
+
 
 /*
 Route           /author/update/name
@@ -283,4 +285,64 @@ booky.put("/publication/update/name/:idi", (req, res) => {
         }
     });
     return res.json({ publications: database.publications });
-}); //not working
+});
+
+
+/*
+Route           /book/update/author
+Description     update/add new author for a book
+Access          PUBLIC
+Parameter       isbn
+Methods         PUT
+*/
+booky.put("/book/update/author/:isbn/:authorId", (req, res) => {
+
+    //update book database
+
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) {
+            return book.author.push(parseInt(req.params.authorId));
+        }
+        /* we used parseInt so that converts string to an integer.
+
+        in books, author is array
+        in author, book is array so we are using the push method to add new data inside the array*/
+    });
+
+    //update author database
+    database.author.forEach((authori) => {
+        if (authori.id === req.body.newAuthor)
+            return authori.books.push(req.params.isbn);
+
+    });
+    return res.json({ books: database.books, author: database.author });
+
+});
+
+
+
+/*
+Route           /publication/update/book
+Description     update/add new books to publication
+Access          PUBLIC
+Parameter       isbn
+Methods         PUT
+*/
+booky.put("/publication/update/book/:isbn",
+    (req, res) => {
+        //update the publication database
+        database.publications.forEach((publication) => {
+            if (publication.id === req.body.pubId) {
+                return publication.books.push(req.params.isbn);
+            }
+        });
+        //update the book database
+        database.books.forEach((book) => {
+            if (book.ISBN === req.params.isbn) {
+                book.publications = req.body.pubId;
+                return;
+            }
+        });
+        return res.json({ books: database.books, publications: database.publications });
+
+    });

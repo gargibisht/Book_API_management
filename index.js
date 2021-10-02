@@ -320,7 +320,6 @@ booky.put("/book/update/author/:isbn/:authorId", (req, res) => {
 });
 
 
-
 /*
 Route           /publication/update/book
 Description     update/add new books to publication
@@ -346,3 +345,83 @@ booky.put("/publication/update/book/:isbn",
         return res.json({ books: database.books, publications: database.publications });
 
     });
+
+/*
+Route           /book/delete
+Description     delete a book
+Access          PUBLIC
+Parameter       isbn
+Methods         DELETE
+*/
+booky.delete("/book/delete/:isbn", (req, res) => {
+
+    const updatedBookDatabase = database.books.filter((book) => book.ISBN !== req.params.isbn);
+    //filter will enter new array and we will have to store it somewhere.
+    database.books = updatedBookDatabase;
+    return res.json({ books: database.books });
+
+});
+//=== strictly equal to
+//!== strictly not equal to
+/*
+Route           /book/delete/author
+Description     delete an author from the book
+Access          PUBLIC
+Parameter       isbn, authorId
+Methods         DELETE
+*/
+booky.delete("/book/delete/author/:isbn/:authorId", (req, res) => {
+    //update the book databse
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) {
+            const newAuthorList = book.author.filter((author1) => author1 !== parseInt(req.params.authorId));
+            book.author = newAuthorList;
+            return;
+        }
+    });
+
+    //update the author database
+    database.author.forEach((author1) => {
+        if (author1.id === parseInt(req.params.authorId)) {
+            const newBooksList = author1.books.filter((book) => book !== req.params.isbn);
+
+            author1.books = newBooksList;
+            return;
+        }
+    });
+    return res.json({ book: database.books, author1: database.author });
+});
+
+/*
+Route           /author/delete
+Description     delete an author
+Access          PUBLIC
+Parameter       authorId
+Methods         DELETE
+*/
+booky.delete("/author/delete/:authorId", (req, res) => {
+
+    const updatedAuthorDatabase = database.author.filter((author1) => author1.id !== parseInt(req.params.authorId));
+    //filter will enter new array and we will have to store it somewhere.
+    database.author = updatedAuthorDatabase;
+    return res.json({ author: database.author });
+
+
+});
+
+/*
+Route           /publication/delete
+Description     delete a publication
+Access          PUBLIC
+Parameter       pubId
+Methods         DELETE
+*/
+booky.delete("/publication/delete/:pubId", (req, res) => {
+
+    const updatedPublicationDatabase = database.publications.filter((publication) => publication.id !== parseInt(req.params.pubId));
+    //filter will enter new array and we will have to store it somewhere.
+    database.publications = updatedPublicationDatabase;
+    return res.json({ publications: database.publications });
+
+
+});

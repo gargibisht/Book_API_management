@@ -1,4 +1,4 @@
-const books = [
+let books = [
 
     {
         ISBN: "978-3-16-148410-0",
@@ -21,7 +21,7 @@ const books = [
         language: "English",
         numPage: 1138,
         category: ["Horror", "Thriller", "Dark fantasy"],
-        publications: [2],
+        publications: [1, 2],
         author: [3]
             //why not name of the author?
             //we specified the id of the author
@@ -74,7 +74,7 @@ const publications = [
     {
         id: 1,
         name: "Delacorte Press",
-        books: ["978-3-16-148410-0"]
+        books: ["978-3-16-148410-0", "978-3-16-148410-1"]
     },
     {
         id: 2,

@@ -36,8 +36,8 @@
 
 //DELETE(APIs method)
 //purpose: to delete something
-//delete a book
-//delete an author  
+//delete a book ✅
+//delete an author from a book ✅
 
 //Authors 🚀
 
@@ -54,7 +54,7 @@
 //update author name ✅
 
 //DELETE
-//delete an author
+//delete an author ✅
 
 
 //Publications 🚀
@@ -73,5 +73,5 @@
 //update/add new books to publication ✅
 
 //DELETE
-//delete the publication
+//delete the publication ✅
 //delete the book from publication

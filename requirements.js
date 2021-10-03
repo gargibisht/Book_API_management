@@ -74,4 +74,6 @@
 
 //DELETE
 //delete the publication ✅
-//delete the book from publication
+//delete the book from publication ✅
+
+//How does a server serves the request?

@@ -423,5 +423,30 @@ booky.delete("/publication/delete/:pubId", (req, res) => {
     database.publications = updatedPublicationDatabase;
     return res.json({ publications: database.publications });
 
+});
 
+/*
+Route           /publication/delete/book
+Description     delete a book from a publication
+Access          PUBLIC
+Parameter       isbn,pubId
+Methods         DELETE
+*/
+booky.delete("/publication/delete/book/:isbn/:pubId", (req, res) => {
+    //update publication database
+    //replace the publication as 0
+    database.publications.forEach((publication) => {
+        if (publication.id === parseInt(req.params.pubId)) {
+            const newBooksList = publication.books.filter((book) => book !== req.params.isbn);
+            publication.books = newBooksList;
+            return;
+        }
+    });
+    //update book database
+    database.books.forEach((book) => {
+        if (book.ISBN === req.params.isbn) {
+            book.publications = 0; //no publication available
+        }
+    });
+    return res.json({ books: database.books, publications: database.publications });
 });
